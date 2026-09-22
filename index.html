@@ -3,61 +3,40 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#080709" />
   <title>Crimson Peak｜緋紅之巔</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+  <div class="grain" aria-hidden="true"></div>
+  <div id="flash-overlay" aria-hidden="true"></div>
   <main id="app" class="app-shell">
     <section id="title-screen" class="screen title-screen">
+      <div class="title-rune rune-a">◌</div><div class="title-rune rune-b">⌁</div>
       <div class="title-eye" aria-hidden="true"></div>
       <p class="eyebrow">A PSYCHOLOGICAL MYSTERY</p>
-      <h1>CRIMSON PEAK</h1>
-      <p class="title-cn">緋紅之巔</p>
+      <h1>CRIMSON PEAK</h1><p class="title-cn">緋紅之巔</p>
       <p class="title-copy">願望不會消失，只是換了一種形式。</p>
       <button id="start-game" class="primary-btn">開始調查</button>
       <p class="controls-hint">2D 點擊式解謎・中等難度・繁體中文</p>
     </section>
 
     <section id="game-screen" class="screen game-screen hidden">
-      <header class="topbar">
-        <div class="brand">CRIMSON <span>PEAK</span></div>
-        <div id="chapter-label" class="chapter-label">CHAPTER 01｜消失之物</div>
-        <button id="restart-game" class="text-btn">重新開始</button>
-      </header>
+      <header class="topbar"><div class="brand">CRIMSON <span>PEAK</span></div><div id="chapter-label" class="chapter-label"></div><div class="top-actions"><button id="sound-toggle" class="icon-btn" title="切換音效">♫ 音效</button><button id="restart-game" class="text-btn">重新開始</button></div></header>
       <div class="game-layout">
         <section class="play-area">
-          <div id="scene" class="scene scene-room" aria-label="遊戲場景">
-            <div class="scene-vignette"></div>
-            <div id="scene-art" class="scene-art"></div>
-            <div id="hotspots" class="hotspots"></div>
-            <div id="scene-caption" class="scene-caption">奧里克斯的房間</div>
-          </div>
-          <div class="message-panel">
-            <div class="speaker-line"><span id="speaker">尤里</span><span id="chapter-progress">1 / 5</span></div>
-            <p id="message">房間裡瀰漫著灰塵與潮濕的氣味。祖父又在說那句話。</p>
-          </div>
+          <div id="chapter-transition" class="chapter-transition hidden"><span id="transition-label"></span></div>
+          <div id="scene" class="scene scene-room" aria-label="遊戲場景"><div class="scene-mist"></div><div id="scene-art" class="scene-art"></div><div class="eye-glow"></div><div id="hotspots" class="hotspots"></div><div id="scene-caption" class="scene-caption"></div><div class="scene-location">● 位置已確認</div></div>
+          <div class="message-panel"><div class="speaker-line"><span id="speaker">尤里</span><span id="chapter-progress">1 / 5</span></div><p id="message"></p><span class="typing-caret"></span></div>
           <div id="dialog-actions" class="dialog-actions"></div>
         </section>
-        <aside class="sidebar">
-          <div class="side-tabs"><button class="tab active" data-tab="inventory">道具</button><button class="tab" data-tab="notes">線索</button></div>
-          <div id="inventory-panel" class="side-panel"></div>
-          <div id="notes-panel" class="side-panel hidden"></div>
-          <div class="objective"><span>目前目標</span><strong id="objective">調查祖父的房間</strong></div>
-          <div class="status-line"><span>已發現 <b id="evidence-count">0</b> 條線索</span><span id="save-status">進度自動保存</span></div>
-        </aside>
+        <aside class="sidebar"><div class="side-tabs"><button class="tab active" data-tab="inventory">道具</button><button class="tab" data-tab="notes">線索 <b id="note-badge">0</b></button></div><div id="inventory-panel" class="side-panel"></div><div id="notes-panel" class="side-panel hidden"></div><div class="objective"><span>目前目標</span><strong id="objective"></strong></div><div class="status-line"><span>已發現 <b id="evidence-count">0</b> 條線索</span><span id="save-status">進度自動保存</span></div></aside>
       </div>
     </section>
 
-    <section id="ending-screen" class="screen ending-screen hidden">
-      <div class="ending-eye"></div>
-      <p class="eyebrow">THE END</p>
-      <h2 id="ending-title">緋紅之巔</h2>
-      <p id="ending-text"></p>
-      <div id="ending-summary" class="ending-summary"></div>
-      <button id="ending-restart" class="primary-btn">再次調查</button>
-    </section>
+    <section id="ending-screen" class="screen ending-screen hidden"><div class="ending-eye"></div><p class="eyebrow">THE END</p><h2 id="ending-title"></h2><p id="ending-text"></p><div id="ending-summary" class="ending-summary"></div><button id="ending-restart" class="primary-btn">再次調查</button></section>
   </main>
-  <div id="modal" class="modal hidden"><div class="modal-card"><button id="close-modal" class="close-btn">×</button><h2 id="modal-title"></h2><div id="modal-body"></div></div></div>
+  <div id="modal" class="modal hidden"><div class="modal-card"><button id="close-modal" class="close-btn">×</button><div class="modal-symbol">◈</div><h2 id="modal-title"></h2><div id="modal-body"></div></div></div>
   <script src="game.js"></script>
 </body>
 </html>
