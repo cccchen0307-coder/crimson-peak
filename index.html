@@ -1,42 +1,158 @@
 <!doctype html>
 <html lang="zh-Hant">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#080709" />
-  <title>Crimson Peak｜緋紅之巔</title>
-  <link rel="stylesheet" href="styles.css" />
-</head>
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#080709"><title>Crimson Peak</title><style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap');
+:root{--ink:#e9e1d3;--red:#9d1d2d;--bright:#d44042;--panel:#151216;--line:#453238;--black:#08080a}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:var(--black);color:var(--ink);font-family:'Noto Sans TC',sans-serif}body{overflow-x:hidden}
+button,select{font:inherit;color:inherit;cursor:pointer}.hidden{display:none!important}
+.grain{position:fixed;inset:-50%;z-index:20;pointer-events:none;opacity:.06;background:radial-gradient(#fff 0 1px,transparent 1px);background-size:5px 5px;animation:grain .2s steps(2) infinite}
+@keyframes grain{50%{transform:translate(2%,-1%)}}
+.screen{min-height:100vh}.title-screen{display:flex;align-items:center;justify-content:center;flex-direction:column;position:relative;overflow:hidden;background:radial-gradient(ellipse at 50% 42%,#4a0b18,#170910 30%,#070709 72%)}
+.title-screen h1{font:600 clamp(42px,8vw,92px)/.85 'Cormorant Garamond',serif;letter-spacing:.13em;margin:0;text-shadow:0 0 34px #7e1627;animation:pulse 5s infinite}
+@keyframes pulse{50%{text-shadow:0 0 54px #bd2033}}
+.title-eye{width:110px;height:55px;border:1px solid #91303b;border-radius:100% 0;transform:rotate(-45deg);position:absolute;top:18%;right:22%;opacity:.75;box-shadow:0 0 28px #9d1d2d;animation:eye 4s infinite}
+.title-eye:after{content:'';position:absolute;width:18px;height:18px;background:#c72832;border-radius:50%;left:44px;top:17px;box-shadow:0 0 28px 8px #a31b2c}
+@keyframes eye{50%{filter:brightness(1.7);transform:rotate(-45deg) scale(1.08)}}
+.primary-btn{background:linear-gradient(110deg,#76202d,#b12d38);border:1px solid #d15153;padding:13px 40px;letter-spacing:.2em;box-shadow:0 0 22px #6c1724;transition:.2s}
+.primary-btn:hover{transform:translateY(-2px);box-shadow:0 0 30px #bb2938}
+.topbar{height:64px;border-bottom:1px solid var(--line);display:flex;align-items:center;padding:0 30px;gap:22px;background:#0d0c0f}
+.brand{font:700 24px 'Cormorant Garamond',serif;letter-spacing:.12em}.brand span{color:#ad2a36}
+.game-layout{display:grid;grid-template-columns:minmax(0,1fr) 300px;min-height:calc(100vh - 64px)}
+.play-area{padding:26px;display:flex;flex-direction:column;max-width:1100px;width:100%;margin:auto}
+.scene{height:clamp(380px,61vh,680px);position:relative;overflow:hidden;border:1px solid #443235;box-shadow:0 18px 50px #000;background:linear-gradient(170deg,#292329 0 42%,#0c0b0f 43%)}
+.scene:after{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse,transparent 29%,#050507c4 100%);z-index:3}
+.hotspots{position:absolute;inset:0;z-index:4}.hotspot{position:absolute;background:#120e12d9;border:1px solid #88606a;color:#e9d8d1;padding:8px 12px;font-size:12px;transition:.2s}
+.hotspot:hover{background:#8c1d2bbd;border-color:#df7775;transform:scale(1.04);box-shadow:0 0 18px #9d1d2d}
+.message-panel{background:#141216;border:1px solid var(--line);border-top:0;padding:13px 18px;min-height:88px}
+.speaker-line{display:flex;justify-content:space-between;color:#cb4349;font-size:12px}.message-panel p{margin:7px 0;color:#c8beb9;font-size:14px;line-height:1.8}
+.dialog-actions{display:flex;gap:10px;flex-wrap:wrap;padding-top:12px}.choice-btn{background:#20191d;border:1px solid #51353b;padding:9px 14px;font-size:12px}
+.choice-btn:hover{border-color:#c44249}
+.sidebar{border-left:1px solid var(--line);background:#111014;padding:22px 20px;display:flex;flex-direction:column}
+.side-tabs{display:flex;border-bottom:1px solid var(--line);margin-bottom:18px}.tab{background:none;border:0;padding:10px 16px;color:#786b69;font-size:13px}.tab.active{color:#eee;border-bottom:2px solid var(--red)}
+.item{border-bottom:1px solid #2e272c;padding:12px 0}.item-name{display:block;color:#ded0c9;font-size:13px}.item-desc{display:block;color:#817478;font-size:11px;margin-top:4px;line-height:1.5}
+.note{padding:10px 0;border-bottom:1px solid #2e272c;color:#b9a8a5;font-size:12px;line-height:1.7}
+.modal{position:fixed;inset:0;background:#050506df;z-index:30;display:grid;place-items:center;padding:20px}
+.modal-card{max-width:560px;width:100%;background:#1a1519;border:1px solid #674049;padding:30px;box-shadow:0 20px 80px #000}
+.modal-card h2{font:600 28px 'Cormorant Garamond',serif;margin:4px 0 18px;color:#e8cfc8}
+.modal-card p{line-height:1.9;color:#c5b8b3;font-size:14px;white-space:pre-line}
+.close-btn{position:absolute;top:8px;right:12px;background:none;border:0;font-size:26px;color:#9b7d80}
+.ending-screen{display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;background:radial-gradient(ellipse at center,#40101a,#09090b 62%)}
+.ending-screen h2{font:600 58px 'Cormorant Garamond',serif;margin:8px 0 20px}
+.title-options{display:flex;gap:18px;margin-top:22px;color:#a99698;font-size:12px}
+</style></head>
 <body>
-  <div class="grain" aria-hidden="true"></div>
-  <div id="flash-overlay" aria-hidden="true"></div>
-  <main id="app" class="app-shell">
-    <section id="title-screen" class="screen title-screen">
-      <div class="title-rune rune-a">◌</div><div class="title-rune rune-b">⌁</div>
-      <div class="title-eye" aria-hidden="true"></div>
-      <p class="eyebrow">A PSYCHOLOGICAL MYSTERY</p>
-      <h1>CRIMSON PEAK</h1><p class="title-cn">緋紅之巔</p>
-      <p class="title-copy">願望不會消失，只是換了一種形式。</p>
-      <button id="start-game" class="primary-btn">開始調查</button>
-      <p class="controls-hint">2D 點擊式解謎・中等難度・繁體中文</p>
-    </section>
+<div class="grain"></div>
+<main id="app">
+<section id="title-screen" class="screen title-screen">
+  <div class="title-eye"></div>
+  <p style="letter-spacing:.3em;color:#b5a299;font-size:11px;margin:0 0 16px">A PSYCHOLOGICAL MYSTERY</p>
+  <h1>CRIMSON PEAK</h1>
+  <p style="margin:24px 0 25px;font-size:22px;letter-spacing:.8em;padding-left:.8em;color:#bdaaa0">緋紅之巔</p>
+  <p style="font:italic 21px 'Cormorant Garamond',serif;color:#c9b6ae;margin:0 0 22px">願望不會消失，只是換了一種形式。</p>
+  <button id="start-game" class="primary-btn">開始調查</button>
+  <div class="title-options">
+    <label>難度 <select id="difficulty"><option value="easy">簡單</option><option value="normal" selected>中等</option><option value="hard">困難</option></select></label>
+    <label><input type="checkbox" id="cheat-mode"> 輔助模式</label>
+  </div>
+  <p style="position:absolute;bottom:25px;color:#665c59;font-size:11px">2D 點擊式解謎・可拖曳組合・五章 Demo</p>
+</section>
 
-    <section id="game-screen" class="screen game-screen hidden">
-      <header class="topbar"><div class="brand">CRIMSON <span>PEAK</span></div><div id="chapter-label" class="chapter-label"></div><div class="top-actions"><button id="sound-toggle" class="icon-btn" title="切換音效">♫ 音效</button><button id="restart-game" class="text-btn">重新開始</button></div></header>
-      <div class="game-layout">
-        <section class="play-area">
-          <div id="chapter-transition" class="chapter-transition hidden"><span id="transition-label"></span></div>
-          <div id="scene" class="scene scene-room" aria-label="遊戲場景"><div class="scene-mist"></div><div id="scene-art" class="scene-art"></div><div class="eye-glow"></div><div id="hotspots" class="hotspots"></div><div id="scene-caption" class="scene-caption"></div><div class="scene-location">● 位置已確認</div></div>
-          <div class="message-panel"><div class="speaker-line"><span id="speaker">尤里</span><span id="chapter-progress">1 / 5</span></div><p id="message"></p><span class="typing-caret"></span></div>
-          <div id="dialog-actions" class="dialog-actions"></div>
-        </section>
-        <aside class="sidebar"><div class="side-tabs"><button class="tab active" data-tab="inventory">道具</button><button class="tab" data-tab="notes">線索 <b id="note-badge">0</b></button></div><div id="inventory-panel" class="side-panel"></div><div id="notes-panel" class="side-panel hidden"></div><div class="objective"><span>目前目標</span><strong id="objective"></strong></div><div class="status-line"><span>已發現 <b id="evidence-count">0</b> 條線索</span><span id="save-status">進度自動保存</span></div></aside>
+<section id="game-screen" class="screen hidden">
+  <header class="topbar">
+    <div class="brand">CRIMSON <span>PEAK</span></div>
+    <div id="chapter-label" style="flex:1;text-align:center;color:#b9a69e;font-size:13px"></div>
+    <div style="display:flex;gap:7px">
+      <button id="sound-toggle" style="background:none;border:1px solid #3d2d33;padding:6px 9px;color:#b29ca0;font-size:11px">♫ 音效</button>
+      <button id="save-game" style="background:none;border:1px solid #3d2d33;padding:6px 9px;color:#b29ca0;font-size:11px">保存</button>
+      <button id="load-game" style="background:none;border:1px solid #3d2d33;padding:6px 9px;color:#b29ca0;font-size:11px">讀取</button>
+    </div>
+  </header>
+  <div class="game-layout">
+    <section class="play-area">
+      <div id="scene" class="scene">
+        <div id="hotspots" class="hotspots"></div>
+        <div id="scene-caption" style="position:absolute;z-index:5;bottom:18px;left:20px;font:600 24px 'Cormorant Garamond',serif;letter-spacing:.08em"></div>
       </div>
+      <div class="message-panel">
+        <div class="speaker-line">
+          <span id="speaker">尤里</span>
+          <span id="chapter-progress">1 / 5</span>
+        </div>
+        <p id="message" style="margin:7px 0"></p>
+      </div>
+      <div id="dialog-actions" class="dialog-actions"></div>
     </section>
+    <aside class="sidebar">
+      <div class="side-tabs">
+        <button class="tab active" data-tab="inventory">道具</button>
+        <button class="tab" data-tab="notes">線索 <b id="note-badge">0</b></button>
+      </div>
+      <div id="inventory-panel"></div>
+      <div id="notes-panel" class="hidden"></div>
+      <div style="margin-top:auto;border-top:1px solid var(--line);padding:18px 0 12px">
+        <span style="display:block;color:#827377;font-size:11px;margin-bottom:8px">目前目標</span>
+        <strong id="objective" style="font-weight:400;color:#ddc9c0;font-size:13px"></strong>
+      </div>
+      <div style="font-size:10px;color:#665c60;display:flex;justify-content:space-between">
+        <span>已發現 <b id="evidence-count">0</b> 條線索</span>
+        <span id="save-status">進度自動保存</span>
+      </div>
+    </aside>
+  </div>
+</section>
 
-    <section id="ending-screen" class="screen ending-screen hidden"><div class="ending-eye"></div><p class="eyebrow">THE END</p><h2 id="ending-title"></h2><p id="ending-text"></p><div id="ending-summary" class="ending-summary"></div><button id="ending-restart" class="primary-btn">再次調查</button></section>
-  </main>
-  <div id="modal" class="modal hidden"><div class="modal-card"><button id="close-modal" class="close-btn">×</button><div class="modal-symbol">◈</div><h2 id="modal-title"></h2><div id="modal-body"></div></div></div>
-  <script src="game.js"></script>
+<section id="ending-screen" class="screen ending-screen hidden">
+  <div style="position:absolute;top:19%;left:calc(50% - 55px);width:110px;height:55px;border:1px solid #91303b;border-radius:100% 0;transform:rotate(-45deg) scale(.75);opacity:.75;box-shadow:0 0 28px #9d1d2d"></div>
+  <p style="letter-spacing:.3em;color:#b5a299;font-size:11px;margin:0 0 16px">THE END</p>
+  <h2 id="ending-title" style="font:600 58px 'Cormorant Garamond',serif;margin:8px 0 20px"></h2>
+  <p id="ending-text" style="max-width:540px;color:#cdbdb7;line-height:2"></p>
+  <div id="ending-summary" style="margin:18px 0 30px;color:#8d7c7d;font-size:12px"></div>
+  <button id="ending-restart" class="primary-btn">再次調查</button>
+</section>
+</main>
+
+<div id="modal" class="modal hidden">
+  <div class="modal-card">
+    <button id="close-modal" class="close-btn">×</button>
+    <h2 id="modal-title"></h2>
+    <div id="modal-body"></div>
+  </div>
+</div>
+
+<script>
+const $=s=>document.querySelector(s);
+const S={chapter:1,difficulty:'normal',sound:true,inventory:[],notes:[],evidence:0,flags:{},ending:null};
+const CH={1:['CHAPTER 01｜消失之物','調查祖父的房間'],2:['CHAPTER 02｜願望的記錄','整理三份檔案'],3:['CHAPTER 03｜紅色痕跡','重建符號順序'],4:['CHAPTER 04｜替代品','辨認契約條件'],5:['CHAPTER 05｜緋紅之巔','理解與選擇']};
+let ac;
+function tone(f=180,d=.1){if(!S.sound||!ac)return;const o=ac.createOscillator(),g=ac.createGain();o.type='triangle';o.frequency.value=f;g.gain.setValueAtTime(.035,ac.currentTime);g.gain.exponentialRampToValueAtTime(.001,ac.currentTime+d);o.connect(g).connect(ac.destination);o.start();o.stop(ac.currentTime+d)}
+function startAudio(){if(!S.sound)return;const C=window.AudioContext||window.webkitAudioContext;if(!C)return;if(!ac)ac=new C();if(ac.state==='suspended')ac.resume()}
+function save(){localStorage.setItem('cp-save',JSON.stringify(S));$('#save-status').textContent='已保存';setTimeout(()=>$('#save-status').textContent='進度自動保存',900)}
+function load(){const x=localStorage.getItem('cp-save');if(!x){alert('沒有保存檔');return}Object.assign(S,JSON.parse(x));$('#title-screen').classList.add('hidden');$('#ending-screen').classList.add('hidden');$('#game-screen').classList.remove('hidden');enter(S.chapter);say('保存檔已讀取。')}
+function note(t){if(!S.notes.includes(t)){S.notes.push(t);S.evidence++;render();save()}}
+function item(n,d){if(!S.inventory.some(x=>x.n===n)){S.inventory.push({n,d});render();save();tone(520,.18)}}
+function say(text,speaker='尤里',actions=[]){$('#speaker').textContent=speaker;$('#message').textContent='';let i=0;clearInterval(say.t);say.t=setInterval(()=>{if(i>=text.length){clearInterval(say.t);return}$('#message').textContent+=text[i++];if(i%4===0)tone(90,.02)},18);$('#dialog-actions').innerHTML=actions.map(a=>`<button class="choice-btn">${a.label}</button>`).join('');actions.forEach((a,i)=>$('#dialog-actions').children[i].onclick=()=>{tone(240);a.fn()})}
+function modal(t,b){$('#modal-title').textContent=t;$('#modal-body').innerHTML=b;$('#modal').classList.remove('hidden');tone(120,.12)}
+function hotspots(a){$('#hotspots').innerHTML=a.map(x=>`<button class="hotspot" style="left:${x.x}%;top:${x.y}%">${x.t}</button>`).join('');$('#hotspots').querySelectorAll('button').forEach((b,i)=>b.onclick=()=>{tone(210,.06);a[i].f()})}
+function enter(n){S.chapter=n;const c=CH[n];$('#chapter-label').textContent=c[0];$('#chapter-progress').textContent=`${n} / 5`;$('#scene-caption').textContent=c[1];$('#objective').textContent=c[1];render();[chapter1,chapter2,chapter3,chapter4,chapter5][n-1]();save()}
+function seq(answer,done){let got=[];$('#puzzle-options').querySelectorAll('button').forEach(b=>b.onclick=()=>{got.push(b.dataset.v);b.disabled=true;if(got.length===answer.length){if(got.join('')===answer||$('#cheat-mode').checked){$('#puzzle-result').textContent='正確！';done()}else{$('#puzzle-result').textContent='錯誤。';got=[];$('#puzzle-options').querySelectorAll('button').forEach(x=>x.disabled=false)}}})}
+function chapter1(){hotspots([{t:'祖父',x:12,y:47,f:()=>{say('「いなくなった……消失了……」','祖父');note('祖父反覆說消失')}},{t:'紅痕',x:27,y:70,f:()=>{modal('痕跡','紅色不完整圓環。');note('紅痕與符號相關')}},{t:'書籍',x:44,y:38,f:()=>modal('線索','「願望→交換→消失」')},{t:'書架',x:85,y:25,f:()=>{modal('謎題','<p>排列三本核心書：願望→交換→消失</p><div id="puzzle-options"><button data-v="A">A 願望</button><button data-v="C">C 交換</button><button data-v="D">D 消失</button></div><p id="puzzle-result"></p>');seq('ACD',()=>{S.flags.book=true;item('舊鑰匙','開啟抽屜');note('書架順序確認');setTimeout(()=>enter(2),800)})}}]);say('房間裡瀰漫灰塵。祖父又在說那句話。')}
+function chapter2(){hotspots([{t:'紀錄',x:18,y:28,f:()=>{modal('時間','A｜1891、B｜1887、C｜1896');note('檔案時間順序')}},{t:'檔案',x:43,y:38,f:()=>{modal('謎題','<p>按第一次記錄時間排列</p><div id="puzzle-options"><button data-v="B">B 1887</button><button data-v="A">A 1891</button><button data-v="C">C 1896</button></div><p id="puzzle-result"></p>');seq('BAC',()=>{S.flags.archive=true;note('願望不會因未實現而消失');setTimeout(()=>enter(3),800)})}},{t:'櫃子',x:78,y:63,f:()=>{if(S.flags.archive){item('檔案','三份願望案例');say('地圖顯示舊研究場所。');}}}]);say('檔案館没有窗戶。灰塵在靜止的空氣中移動。')}
+function chapter3(){hotspots([{t:'符號',x:15,y:34,f:()=>{note('入口代表召喚');say('紅色圓環缺了一角。')}},{t:'報告',x:40,y:25,f:()=>{note('試圖控制會讓願望不穩定');modal('記錄','它一直在理解我們。')}},{t:'觀察室',x:66,y:53,f:()=>{modal('謎題','<p>按順序排列：召喚→交換→消失</p><div id="puzzle-options"><button data-v="召喚">召喚</button><button data-v="交換">交換</button><button data-v="消失">消失</button></div><p id="puzzle-result"></p>');seq('召喚交換消失',()=>{S.flags.symbol=true;note('祖父參與固定實驗');setTimeout(()=>enter(4),800)})}},{t:'證件',x:82,y:76,f:()=>item('證件','進入觀察室')}]);say('廢棄設施的紅光脈動。')}
+function chapter4(){hotspots([{t:'名字',x:18,y:35,f:()=>modal('展示','你想不起來的名字。')}},{t:'記憶',x:43,y:35,f:()=>modal('模糊','一段不確定的回憶。')}},{t:'契約',x:68,y:35,f:()=>{modal('謎題','<p>拖曳正確條件</p><div id="puzzle-options"><button data-v="wrong">模糊承諾</button><button data-v="right">明確交換</button></div><p id="puzzle-result"></p>');seq('right',()=>{S.flags.contract=true;note('明確說出的交換才成立');setTimeout(()=>enter(5),800)})}},{t:'商人',x:83,y:72,f:()=>say('有些遵守寫下的，有些只遵守自己理解的。','商人',[{label:'拒絕',fn:()=>{S.flags.refused=true;setTimeout(()=>enter(5),800)}},{label:'接受',fn:()=>{S.flags.traded=true;setTimeout(()=>enter(5),800)}}])}]);say('商店没有出口。貨架上是別人的夢。')}
+function chapter5(){hotspots([{t:'書架',x:17,y:28,f:()=>modal('循環','願望、交換、消失。都還在這。')}},{t:'鏡子',x:42,y:25,f:()=>{note('它可能不是地方');say('鏡中没有你，只有一雙眼睛。')}},{t:'書桌',x:72,y:33,f:()=>{modal('推理','<p>祖父真正追求的是什麼？</p><div class="dialog-actions"><button data-w="control">控制所有願望</button><button data-w="understand">理解為何出現</button><button data-w="memory">恢復失去的記憶</button></div>');document.querySelectorAll('[data-w]').forEach(b=>b.onclick=()=>{S.flags.wish=b.dataset.w;note('你的推理：'+b.textContent);finish()})}},{t:'眼睛',x:51,y:65,f:()=>{modal('循環','<p>拖曳排列：創造→貪求→消失→再現</p><div id="puzzle-options"><button data-v="creation">創造</button><button data-v="greed">貪求</button><button data-v="vanish">消失</button><button data-v="return">再現</button></div><p id="puzzle-result"></p>');seq('creationgreedvanishreturn',()=>{$('#modal').classList.add('hidden');finish()})}}]);say('房間回到原處，又不像原來。門通往同一扇門。')}
+function finish(){modal('最後','<p>你要如何對待這個循環？</p><div class="dialog-actions"><button data-e="cut">切斷交換</button><button data-e="continue">讓交換繼續</button><button data-e="understand">承認無法理解</button><button data-e="secret">以自己的願望交換</button></div>');document.querySelectorAll('[data-e]').forEach(b=>b.onclick=()=>{$('#modal').classList.add('hidden');ending(b.dataset.e)})}
+function ending(type){$('#game-screen').classList.add('hidden');$('#ending-screen').classList.remove('hidden');const all={cut:['ENDING A｜切斷交換','你燒掉召喚記錄。眼睛閉合了，但紅痕没有消失。交換暫時中斷。'],continue:['ENDING B｜願望仍在繼續','你把研究放回書架。城市的角落逐一亮起深紅色眼睛。'],understand:['ENDING C｜緋紅之巔並不在遠方','你承認它無法被善惡或控制定義。眼睛問：「你終於停止尋找答案了嗎？」'],secret:['ENDING D｜交換者','你說出自己的願望。祖父在門後醒來，而你的名字從所有記錄中消失。'],true:['ENDING E｜未記錄的空白','你收集所有線索、拒絕交易並理解循環。Crimson Peak 没有消失，它只是第一次没有得到回答。']};let k=type;if(S.evidence>=9&&S.flags.refused&&S.flags.wish==='understand')k='true';const d=all[k];$('#ending-title').textContent=d[0];$('#ending-text').textContent=d[1];$('#ending-summary').textContent=`難度：${S.difficulty}｜發現 ${S.evidence} 條線索｜收集 ${S.inventory.length} 項道具`;tone(55,.7);save()}
+function render(){const ip=$('#inventory-panel');ip.innerHTML=S.inventory.length?S.inventory.map(x=>`<div class="item"><button><span class="item-name">${x.n}</span><span class="item-desc">${x.d}</span></button></div>`).join(''):'<p class="item-desc">尚未取得道具。</p>';$('#notes-panel').innerHTML=S.notes.length?S.notes.map(x=>`<div class="note">${x}</div>`).join(''):'<p class="item-desc">重要發現會記錄在這裡。</p>';$('#evidence-count').textContent=S.evidence;$('#note-badge').textContent=S.notes.length}
+function start(){startAudio();S.chapter=1;S.inventory=[];S.notes=[];S.evidence=0;S.flags={};S.difficulty=$('#difficulty').value;$('#title-screen').classList.add('hidden');$('#game-screen').classList.remove('hidden');enter(1)}
+$('#start-game').onclick=start;
+$('#save-game').onclick=()=>{save();tone(320,.1)};
+$('#load-game').onclick=load;
+$('#ending-restart').onclick=()=>{$('#ending-screen').classList.add('hidden');$('#title-screen').classList.remove('hidden')};
+$('#close-modal').onclick=()=>$('#modal').classList.add('hidden');
+$('#modal').onclick=e=>{if(e.target.id==='modal')$('#modal').classList.add('hidden')};
+$('#sound-toggle').onclick=()=>{S.sound=!S.sound;$('#sound-toggle').textContent=S.sound?'♫ 音效':'♪ 靜音';if(S.sound)startAudio()};
+document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));t.classList.add('active');$('#inventory-panel').classList.toggle('hidden',t.dataset.tab!=='inventory');$('#notes-panel').classList.toggle('hidden',t.dataset.tab!=='notes')});
+render();
+</script>
 </body>
 </html>
